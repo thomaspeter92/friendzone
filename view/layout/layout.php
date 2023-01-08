@@ -38,7 +38,7 @@
             } else {
             ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>/login">Login</a>
+                <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>login">Login</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>/signup">Signup</a>
