@@ -4,6 +4,8 @@ require_once('./model/PostModel.php');
 
 function home()
 {
+  $userManager = new UserModel();
+  $users = $userManager->getAllUsers();
   require('./view/pages/home.php');
 }
 function login()
