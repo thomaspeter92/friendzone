@@ -65,13 +65,17 @@ function makePost($params)
 {
   $postsManager = new PostsModel();
   $postsManager->makePost($params);
-  header('Location: index.php?action=newsfeed');
+  header('Location: ' . PROJECT_ROOT_PATH . '/feed');
 }
 function deletePost($params)
 {
   $postsManager = new PostsModel();
   $result = $postsManager->deletePost(array("post_id" => $params['post_id'], "author_id" => $_SESSION['user_id']));
-  header('Location: index.php?action=newsfeed');
+  if ($params['fromProfile']) {
+    header('Location: ' . PROJECT_ROOT_PATH . '/profile?user_id=' . $_SESSION['user_id'] . '&postDeleted=true');
+    return;
+  }
+  header('Location: ' . PROJECT_ROOT_PATH . '/feed?postDeleted=true');
 }
 function getProfile($params)
 {

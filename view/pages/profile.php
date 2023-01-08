@@ -7,12 +7,23 @@ if ($_SESSION['id'] != session_id() || !isset($_SESSION['user_id'])) {
 ob_start();
 ?>
 
-
 <div class="container">
   <div class="row">
     <div class="col-md-6 mx-auto">
-      <h3><?= $user['first_name'] . ' ' . $user['last_name'] ?></h3>
-      <p class="text-secondary"><?= $user['email'] ?></p>
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <h3><?= $user['first_name'] . ' ' . $user['last_name'] ?></h3>
+          <p class="text-secondary"><?= $user['email'] ?></p>
+          <small class="text-secondary">About me:</small>
+          <p class="px-3 fst-italic"><?= $user['biography'] ?></p>
+        </div>
+        <?php
+        if ($user['id'] === $_SESSION['user_id']) { ?>
+          <p><button class="btn btn-success">Edit Profile</button></p>
+        <?php } ?>
+      </div>
+
+
       <hr>
       <h6 class="mb-3 text-secondary"><?= $user['first_name'] ?>'s Recent Posts:</h6>
       <?php
@@ -26,7 +37,7 @@ ob_start();
               </div>
               <?php
               if ($_SESSION["user_id"] == $post['author_id']) { ?>
-                <a href="index.php?action=delete-post&post_id=<?= $post['id'] ?>" type="button" class="btn-close" aria-label="Delete"></a>
+                <a href="<?= PROJECT_ROOT_PATH ?>/delete-post?post_id=<?= $post['id'] ?>&fromProfile=true" type="button" class="btn-close" aria-label="Delete"></a>
               <?php
               }
               ?>
@@ -43,7 +54,11 @@ ob_start();
   </div>
 
 </div>
-
+<script>
+  if (window.location.search.search("postDeleted=true") > 0) {
+    alert('Post successfully deleted')
+  }
+</script>
 
 <?php
 $content = ob_get_clean();

@@ -39,10 +39,12 @@ if (getMethod() == 'GET') {
     case "/logout":
       handleLogout();
       break;
-    case "profile":
+    case "/profile":
       getProfile($_REQUEST);
       break;
-      // case
+    case '/delete-post':
+      deletePost($_REQUEST);
+      break;
     default:
       home();
       break;
@@ -55,6 +57,9 @@ if (getMethod() == 'GET') {
       break;
     case '/handle-signup':
       handleSignup($_REQUEST);
+      break;
+    case '/make-post':
+      makePost($_REQUEST);
       break;
   }
 }
