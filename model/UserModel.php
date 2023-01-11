@@ -83,4 +83,26 @@ class UserModel extends DB
       die();
     }
   }
+  public function updateUser($params)
+  {
+    try {
+      $db = $this->connect();
+      $req = $db->prepare("UPDATE users
+                           SET first_name = COALESCE(:first_name, first_name),
+                               last_name = COALESCE(:last_name, last_name),
+                               email = COALESCE(:email, email),
+                               phone_number = COALESCE(:phone_number, phone_number),
+                               biography = COALESCE(:biography, biography)
+                           WHERE id = :user_id");
+      $req->bindValue(':first_name', $params['first_name'], PDO::PARAM_STR);
+      $req->bindValue(':last_name', $params['last_name'], PDO::PARAM_STR);
+      $req->bindValue(':email', $params['email'], PDO::PARAM_STR);
+      $req->bindValue(':phone_number ', $params['phone_number'], PDO::PARAM_STR);
+      $req->bindValue(':biography', $params['biography'], PDO::PARAM_STR);
+      $result = $req->execute();
+      $req->closeCursor();
+      echo $result;
+    } catch (Exception $e) {
+    }
+  }
 }

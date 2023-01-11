@@ -16,7 +16,7 @@
   <header>
     <nav class="navbar fixed-top navbar-expand-lg bg-body-secondary py-3">
       <div class="container">
-        <a class="navbar-brand" href="<?= PROJECT_ROOT_PATH ?>">FriendZone</a>
+        <a class="navbar-brand" href="index.php">FriendZone</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,21 +27,21 @@
             if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
             ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>/feed">Feed</a>
+                <a class="nav-link" href="index.php?action=newsfeed">Feed</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>/profile?user_id=<?= $_SESSION['user_id'] ?>">My Profile</a>
+                <a class="nav-link" href="index.php?action=profile&user_id=<?= $_SESSION['user_id'] ?>">My Profile</a>
               </li>
-              <a href="<?= PROJECT_ROOT_PATH ?>/logout" class="btn btn-info text-light mw-auto">Log Out</a>
+              <a href="index.php?action=logout" class="btn btn-info text-light mw-auto">Log Out</a>
             <?php
               // LOGGED OUT USER MENU
             } else {
             ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>login">Login</a>
+                <a class="nav-link" href="index.php?action=login">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="<?= PROJECT_ROOT_PATH ?>/signup">Signup</a>
+                <a class="nav-link" href="index.php?action=signup">Signup</a>
               </li>
             <?php
             }

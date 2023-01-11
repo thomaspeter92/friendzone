@@ -23,10 +23,11 @@ function handleLogin($params)
     $_SESSION['email'] = $result['email'];
     $_SESSION['phone_number'] = $result['phone_number'];
     $_SESSION['id'] = session_id();
-    header('Location:' . PROJECT_ROOT_PATH . '/feed');
+    header('Location: index.php?action=newsfeed');
     return;
+  } else {
+    header('Location: index.php?action=login&error=noUser');
   }
-  // return unknown user
 }
 function signup()
 {
@@ -49,10 +50,15 @@ function handleSignup($params)
     }
   }
 }
+function updateUser($params)
+{
+  $userManager = new UserModel();
+  $result = $userManager->updateUser($params);
+}
 function handleLogout()
 {
   session_destroy();
-  header("Location:" . PROJECT_ROOT_PATH);
+  header("Location: index.php");
 }
 
 function newsfeed()
@@ -63,22 +69,6 @@ function newsfeed()
   $posts = $postsManager->getPosts();
   require('./view/pages/newsfeed.php');
 }
-function makePost($params)
-{
-  $postsManager = new PostsModel();
-  $postsManager->makePost($params);
-  header('Location: ' . PROJECT_ROOT_PATH . '/feed');
-}
-function deletePost($params)
-{
-  $postsManager = new PostsModel();
-  $result = $postsManager->deletePost(array("post_id" => $params['post_id'], "author_id" => $_SESSION['user_id']));
-  if ($params['fromProfile']) {
-    header('Location: ' . PROJECT_ROOT_PATH . '/profile?user_id=' . $_SESSION['user_id'] . '&postDeleted=true');
-    return;
-  }
-  header('Location: ' . PROJECT_ROOT_PATH . '/feed?postDeleted=true');
-}
 function getProfile($params)
 {
   $userManager = new UserModel();
@@ -87,7 +77,46 @@ function getProfile($params)
   $posts = $postsManager->getPostsByUser($params);
   require('./view/pages/profile.php');
 }
-function notFound()
+function makePost($params)
 {
-  require_once('./view/pages/404.php');
+  $postsManager = new PostsModel();
+  $postsManager->makePost($params);
+  header('Location: index.php?action=newsfeed');
+}
+function deletePost($params)
+{
+  $postsManager = new PostsModel();
+  $result = $postsManager->deletePost(array("post_id" => $params['post_id'], "author_id" => $_SESSION['user_id']));
+  if ($params['fromProfile']) {
+    header('Location: index.php?action=profile&user_id=' . $_SESSION['user_id'] . '&postDeleted=true');
+    return;
+  }
+  header('Location: index.php?action=newsfeed&postDeleted=true');
+}
+
+function getComments($params)
+{
+  $postsManager = new PostsModel();
+  $result = $postsManager->getComments($params);
+  if ($result) {
+    http_response_code(200);
+    echo json_encode(array("success" => true, "data" => $result));
+  } else {
+    http_response_code(500);
+    echo json_encode(array("success" => false));
+  }
+}
+function postComment($params)
+{
+  $postsManager = new PostsModel();
+  $result = $postsManager->postComment($params);
+  if ($result) {
+    if (isset($params['fromProfile']) && $params['fromProfile'] != 'false') {
+      header("Location: index.php?action=profile&user_id=" . $params['fromProfile'] . "&commentPosted=true");
+    } else {
+      header("Location: index.php?action=newsfeed&commentPosted=true");
+    }
+  } else {
+    header("Location: index.php?action=" . isset($params['fromProfile']) ? 'profile&user_id=' . $params['fromProfile'] : 'newsfeed' . "&commentPosted=false");
+  }
 }

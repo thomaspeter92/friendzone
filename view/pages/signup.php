@@ -53,47 +53,12 @@ ob_start();
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a href="<?= PROJECT_ROOT_PATH ?>/login" type="button" class="btn btn-primary">Log In</a>
+        <a href="index.php?action=login" type="button" class="btn btn-primary">Log In</a>
       </div>
     </div>
   </div>
 </div>
-<!-- </div> -->
-<script>
-  $('#signupForm').submit(function(e) {
-    e.preventDefault();
-    const formData = {
-      email: $('#emailInput').val(),
-      phone_number: $('#phoneNumberInput').val(),
-      first_name: $('#firstNameInput').val(),
-      last_name: $('#lastNameInput').val(),
-      biography: $('#biographyInput').val(),
-      password: $('#passwordInput').val(),
-    }
-    $.ajax({
-      type: "POST",
-      url: "<?= PROJECT_ROOT_PATH ?>/handle-signup",
-      data: formData,
-      dataType: "json",
-      encode: true,
-      success: (res) => {
-        if (res.success) {
-          $('#myModal').modal('show');
-          return
-        }
-        $('#signupAlertError').html(res.message).removeClass('d-none');
-        setTimeout(() => {
-          $('#signupAlertError').addClass('d-none')
-        }, 5000)
-      },
-      error: (err) => {
-        console.log(err)
-      }
-
-    })
-  })
-</script>
-
+<script src="public/js/app.js"></script>
 <?php
 $content = ob_get_clean();
 require('./view/layout/layout.php');
