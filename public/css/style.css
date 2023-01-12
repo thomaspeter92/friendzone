@@ -1,0 +1,9 @@
+#home-container {
+background-image: url('../images/home.jpg');
+background-size: cover;
+background-position: center;
+position: absolute;
+min-height: 100vh;
+min-width: 100vw;
+top: 0;
+}

@@ -9,32 +9,49 @@ ob_start();
       <div class="col">
         <label for="firstNameInput" class="form-label">First Name</label>
         <input name="first_name" autocomplete="off" required type="text" class="form-control" id="firstNameInput">
+        <div class="invalid-feedback">
+          First name cannot be empty.
+        </div>
       </div>
       <div class="col">
         <label for="lastNameInput" class="form-label">Last Name</label>
         <input name="last_name" autocomplete="off" required type="text" class="form-control" id="lastNameInput">
+        <div class="invalid-feedback">
+          Last name cannot be empty.
+        </div>
       </div>
     </div>
     <div class="mb-3 row">
       <div class="col">
         <label for="emailInput" class="form-label">Email Address</label>
         <input name="email" autocomplete="off" required placeholder="johndoe@example.com" type="email" class="form-control" id="emailInput" aria-describedby="emailHelp">
+        <div class="invalid-feedback">
+          Please enter a valid email address.
+        </div>
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
       </div>
       <div class="col">
         <label for="phoneNumberInput" class="form-label">Phone Number</label>
         <input name="phone_number" autocomplete="off" required type="text" class="form-control" id="phoneNumberInput">
+        <div class="invalid-feedback">
+          Please enter a valid phone number (9-11 digits).
+        </div>
       </div>
     </div>
 
     <div class="mb-3">
       <label for="passwordInput" class="form-label">Password</label>
       <input name="password" autocomplete="off" required type="password" class="form-control" id="passwordInput">
+      <div class="invalid-feedback">
+        Passwords can be 5-15 characters, with at least one number and 1 uppercase letter.
+      </div>
     </div>
     <div class="mb-3">
       <label for="biographyInput" class="form-label">Please add a short biography</label>
-      <textarea name="biography" autocomplete="off" required name="biography" class="form-control" id="biographyInput">
-        </textarea>
+      <textarea name="biography" autocomplete="off" required name="biography" class="form-control" id="biographyInput"></textarea>
+      <div class="invalid-feedback">
+        Biography must be between 5 - 300 characters.
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <div class="alert alert-danger d-none mt-3" id="signupAlertError"></div>
@@ -58,7 +75,7 @@ ob_start();
     </div>
   </div>
 </div>
-<script src="public/js/app.js"></script>
+<script src="public/js/signup.js"></script>
 <?php
 $content = ob_get_clean();
 require('./view/layout/layout.php');
