@@ -53,7 +53,8 @@ function handleSignup($params)
 function updateUser($params)
 {
   $userManager = new UserModel();
-  $result = $userManager->updateUser($params);
+  $userManager->updateUser($params);
+  getProfile($params);
 }
 function handleLogout()
 {

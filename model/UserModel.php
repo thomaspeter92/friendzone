@@ -53,12 +53,12 @@ class UserModel extends DB
       $securePassword = password_hash($params['password'], PASSWORD_BCRYPT);
       $db = $this->connect();
       $req = $db->prepare("INSERT INTO `users` (`first_name`, `last_name`, `email`, `password`, `phone_number`, `biography`) VALUES (:first_name, :last_name, :email, :password,:phone_number, :biography )");
-      $req->bindValue(':first_name', $params['first_name'], PDO::PARAM_STR);
-      $req->bindValue(':last_name', $params['last_name'], PDO::PARAM_STR);
-      $req->bindValue(':email', $params['email'], PDO::PARAM_STR);
+      $req->bindValue(':first_name', htmlspecialchars($params['first_name']), PDO::PARAM_STR);
+      $req->bindValue(':last_name', htmlspecialchars($params['last_name']), PDO::PARAM_STR);
+      $req->bindValue(':email', htmlspecialchars($params['email']), PDO::PARAM_STR);
       $req->bindValue(':phone_number', $params['phone_number'], PDO::PARAM_STR);
       $req->bindValue(':password', $securePassword, PDO::PARAM_STR);
-      $req->bindValue(':biography', trim($params['biography']), PDO::PARAM_STR);
+      $req->bindValue(':biography', htmlspecialchars(trim($params['biography'])), PDO::PARAM_STR);
       $result = $req->execute();
       $req->closeCursor();
       return $result;
@@ -87,22 +87,18 @@ class UserModel extends DB
   {
     try {
       $db = $this->connect();
-      $req = $db->prepare("UPDATE users
-                           SET first_name = COALESCE(:first_name, first_name),
-                               last_name = COALESCE(:last_name, last_name),
-                               email = COALESCE(:email, email),
-                               phone_number = COALESCE(:phone_number, phone_number),
-                               biography = COALESCE(:biography, biography)
-                           WHERE id = :user_id");
+      $req = $db->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, biography = :biography WHERE id = :user_id AND (first_name != :first_name OR last_name != :last_name OR email != :email OR phone_number != :phone_number OR biography != :biography)");
       $req->bindValue(':first_name', $params['first_name'], PDO::PARAM_STR);
       $req->bindValue(':last_name', $params['last_name'], PDO::PARAM_STR);
       $req->bindValue(':email', $params['email'], PDO::PARAM_STR);
-      $req->bindValue(':phone_number ', $params['phone_number'], PDO::PARAM_STR);
+      $req->bindValue(':phone_number', $params['phone_number'], PDO::PARAM_STR);
       $req->bindValue(':biography', $params['biography'], PDO::PARAM_STR);
+      $req->bindValue(':user_id', $params['user_id'], PDO::PARAM_STR);
       $result = $req->execute();
       $req->closeCursor();
-      echo $result;
+      return $result;
     } catch (Exception $e) {
+      die();
     }
   }
 }

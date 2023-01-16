@@ -14,6 +14,7 @@ switch ($action) {
     handleSignup($_REQUEST);
     break;
   case 'update-user':
+    updateUser($_REQUEST);
     break;
   case 'login':
     login();

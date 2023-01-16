@@ -1,6 +1,16 @@
 if (window.location.search.search("postDeleted=true") > 0) {
   alert('Post successfully deleted')
 }
+
+// VALIDATE POST SUBMISSION 
+$('#postForm').submit( function(){
+  let postInput = $('#postInput')
+  if(postInput.val().length > 280 || postInput.val() < 1) {
+    postInput.addClass('is-invalid')
+    return false
+  }
+})
+
 // COMMENTS SCRIPT FOR POSTS
 $('.show-comments').on('click', function() {
   let postId = $(this).data('post-id')

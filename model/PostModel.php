@@ -36,7 +36,7 @@ class PostsModel extends DB
     try {
       $db = $this->connect();
       $req = $db->prepare("INSERT INTO `posts` (`content`, `created_at`, `author_id`) VALUES (:content, NOW(), :author_id)");
-      $req->bindValue(':content', $params['content'], PDO::PARAM_STR);
+      $req->bindValue(':content', htmlspecialchars($params['content']), PDO::PARAM_STR);
       $req->bindValue(':author_id', $params['author_id'], PDO::PARAM_INT);
       $result = $req->execute();
       $req->closeCursor();
@@ -67,7 +67,7 @@ class PostsModel extends DB
     try {
       $db = $this->connect();
       $req = $db->prepare("INSERT INTO comments (content, created_at, author_id, post_id) VALUES (:content, NOW(), :author_id, :post_id)");
-      $req->bindValue(':content', $params['content'], PDO::PARAM_STR);
+      $req->bindValue(':content', htmlspecialchars($params['content']), PDO::PARAM_STR);
       $req->bindValue(':author_id', $params['author_id'], PDO::PARAM_INT);
       $req->bindValue(':post_id', $params['post_id'], PDO::PARAM_INT);
       $result = $req->execute();
