@@ -24,7 +24,9 @@
   </div>
 
 </div>
-
+<script>
+  alert("DISCLAIMER: This is a prototype website. Please do not enter your real information.")
+</script>
 
 <?php
 $content = ob_get_clean();

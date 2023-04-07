@@ -13,8 +13,13 @@ ob_start();
     <div class="invalid-feedback">Password invalid</div>
     <button type="submit" class="btn btn-primary mt-3">Log In</button>
     <div class="alert alert-danger d-none mt-3" id="errorMessage"></div>
+    <div class="alert alert-success mt-5" role="alert">
+      <strong>Use the folling credentials:</strong> testuser@test.com Password!
+    </div>
   </form>
+
 </div>
+
 <script src="public/js/login.js"></script>
 <?php
 $content = ob_get_clean();
